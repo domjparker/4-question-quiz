@@ -43,7 +43,7 @@
                         <div class="card-body">
                           <h1 id="question" class="card-title">Card title</h5>
                         </div>
-                        <ul class="list-group list-group-flush">
+                        <ul id="choices" class="list-group list-group-flush">
                           <li id="answ1" class="list-group-item">answ1</li>
                           <li id="answ2" class="list-group-item">answ2</li>
                           <li id="answ3" class="list-group-item">answ3</li>
@@ -56,9 +56,32 @@
                 </section>
 
                 <!-- Quiz End Section -->
-
+                <section id="resultPage">
+                    <div class="card border-0">
+                        <div class="card-body text-center">
+                          <h1>All done!</h1>
+                          <h4 id="yourResult">Your final score is: </h4>
+                        </div>
+                        <div class="form-group">
+                            <label>Please enter your initials:</label>
+                            <input id="initials" class="form-control">
+                          </div>
+                          <button id="submitBtn" class="btn btn-primary">Submit</button>
+                      </div>
+                </section>
 
                 <!-- High Scores Section -->
+                <section id="highScores">
+                    <div class="card border-0">
+                        <div class="card-body">
+                          <h1 class="card-title">High Score Rankings</h5>
+                        </div>
+                        <ol id="scoresRanked" class="list-group list-group-flush">
+                        </ol>
+                        <button id="playAgain" class="btn btn-success">Play Again!</button>
+                        <button id="deleteScores" class="btn btn-warning">Delete Scores</button>
+                      </div>
+                </section>
 
             </div>
             <div class="col-md-3"></div>
