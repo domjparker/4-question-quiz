@@ -2,7 +2,7 @@
 var startPage = document.querySelector("#startPage");
 var startBtnDiv = document.querySelector("#startBtnDiv");
 var hiScoreBtn = document.querySelector("#highScoreButton")
-var timerDisplay = document.querySelector("#timer");
+var timerDisplayID = document.querySelector("#timer");
 
 // variables made from elements grabbed from the quiz pages
 var quizPage = document.querySelector("#quiz");
@@ -22,6 +22,9 @@ var scoreListDiv = document.querySelector("#scoresRanked");
 var playAgainBtn = document.querySelector("#playAgain");
 var deleteScoresBtn = document.querySelector("#deleteScores");
 
+var secondsLeft = 20
+
+// not sure if i'm going to use this yet to keep score or whether 
 var scoreCount = 0
 
 // index to be used to track cycling through the questionBank array
@@ -60,8 +63,9 @@ function preStart() {
     startBtn.addEventListener("click", function() {
         scoreCount = 0;
         displayQuizPage()
-        startTimer()
         populateQuesAns()
+        startTimer()
+        
     })
 }
 
@@ -87,6 +91,7 @@ choicesID.addEventListener("click",function (event) {
                 congrats.textContent = "Correct!!! You know your stuff!!!"
                 choiceResult.appendChild(congrats);
                 indexCount++;
+                scoreCount++
                 populateQuesAns()
             } 
             else {
@@ -95,6 +100,8 @@ choicesID.addEventListener("click",function (event) {
                 wrongAnswer.textContent = "That was a bloody awful answer, wasn't it?!!"
                 choiceResult.appendChild(wrongAnswer);
                 indexCount++;
+                scoreCount--;
+            
                 populateQuesAns()
             }  
         }
@@ -102,7 +109,17 @@ choicesID.addEventListener("click",function (event) {
 })
 
 
-
+function startTimer() {
+    var timerInterval = setInterval(function() {
+        secondsLeft--;
+        timerDisplayID.textContent = "timer: " + secondsLeft;
+        if(secondsLeft === -1) {
+            clearInterval(timerInterval);
+            alert("You ran out of time");
+            displayResultPage()
+        }
+    }, 1000);
+}
 
 
 
@@ -115,7 +132,7 @@ function displayStartPage(){
     quizPage.style.display = "none";
     resultPage.style.display = "none";
     highScorePage.style.display = "none";
-    timerDisplay.style.display = "block";
+    timerDisplayID.style.display = "block";
     hiScoreBtn.style.display = "block";
 }
 
@@ -124,7 +141,7 @@ function displayQuizPage(){
     quizPage.style.display = "block";
     resultPage.style.display = "none";
     highScorePage.style.display = "none";
-    timerDisplay.style.display = "block";
+    timerDisplayID.style.display = "block";
     hiScoreBtn.style.display = "block";
 }
 
@@ -134,7 +151,7 @@ function displayResultPage(){
     resultPage.style.display = "block";
     highScorePage.style.display = "none";
     hiScoreBtn.style.display = "none";
-    timerDisplay.style.display = "none";
+    timerDisplayID.style.display = "none";
 }
 
 function displayHighScoresPage(){
@@ -143,7 +160,7 @@ function displayHighScoresPage(){
     resultPage.style.display = "none";
     highScorePage.style.display = "block";
     hiScoreBtn.style.display = "none";
-    timerDisplay.style.display = "none";
+    timerDisplayID.style.display = "none";
 }
 
 preStart()
