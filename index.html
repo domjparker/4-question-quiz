@@ -25,14 +25,14 @@
             <div class="col-md-6">
                 
                 <!-- Start Page -->
-                <section id="start">
+                <section id="startPage">
                     <div class="card border-0">
                         <div id="instructions" class="card-body text-center">
                           <h1>Welcome to the Quiz</h1>
                           <h4>This quiz involves answering four questions while a timer counts down from 1 minute. If you answer a question correctly, the timer will count down normally. If you answer a question incorrectly, you will lose 15 seconds from the timer as it counts down. Are you ready?</h4>
                         </div>
-                        <div id="startbutton" class="text-center">
-                            <button id="startBtn" class="btn btn-success">Start Quiz</button>
+                        <div id="startBtnDiv" class="text-center">
+                            <!-- class="btn btn-success" -->
                         </div>
                       </div>
                 </section>
@@ -41,16 +41,11 @@
                 <section id="quiz">
                     <div class="card border-0">
                         <div class="card-body">
-                          <h1 id="question" class="card-title">Card title</h5>
+                          <h1 id="questionID" class="card-title">Card title</h5>
                         </div>
-                        <ul id="choices" class="list-group list-group-flush">
-                          <li id="answ1" class="list-group-item">answ1</li>
-                          <li id="answ2" class="list-group-item">answ2</li>
-                          <li id="answ3" class="list-group-item">answ3</li>
-                          <li id="answ4" class="list-group-item">answ4</li>
-                        </ul>
-                        <div class="card-body">
-                          <a id="choiceResult" class="card-link">(correct/incorrect)</a>
+                        <div id="choicesID" class="list-group list-group-flush">
+                        </div>
+                        <div id="choiceResult"class="card-body text-center">
                         </div>
                       </div>
                 </section>
