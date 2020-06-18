@@ -34,7 +34,7 @@ var userInitials =""
 
 
 
-var resultsArray = []
+var userDetailsArray = JSON.parse(localStorage.getItem("userDetailsArray")) || [];
 
 // array with question-answers to be cycled through the quiz page
 var questionBank = [
@@ -98,7 +98,6 @@ choicesID.addEventListener("click",function (event) {
                 choiceResult.appendChild(congrats);
                 indexCount++;
                 scoreCount++
-
                 populateQuesAns()
             } 
             else {
@@ -111,7 +110,7 @@ choicesID.addEventListener("click",function (event) {
                 populateQuesAns()
             }  
         } else {
-            alert("Well done! Click to see your score result")
+            
             displayResultPage()
             populateResult()
         }
@@ -122,11 +121,14 @@ choicesID.addEventListener("click",function (event) {
 function startTimer() {
     var timerInterval = setInterval(function() {
         secondsLeft--;
-        timerDisplayID.textContent = "timer: " + secondsLeft;
+        timerDisplayID.textContent = "time: " + secondsLeft;
         if(secondsLeft === -1) {
             clearInterval(timerInterval);
             alert("You ran out of time");
             displayResultPage()
+        } else if (indexCount === questionBank.length - 1) {
+            clearInterval(timerInterval);
+            console.log(timerDisplayID.textContent);
         }
     }, 1000);
 }
@@ -138,16 +140,29 @@ function populateResult() {
 }
 
 submitBtn.addEventListener("click", function() {
-    var userDetails = {
+    event.preventDefault();
+    userDetails = {
         "name": initials.value,
-        "score": scoreCount
+        "score": scoreCount,
+        "time": timerDisplayID.textcontent
     } 
-    if (localStorage.getItem("userDetails") === null) {
-        // console.log("doesn't have");
-        localStorage.setItem("userDetails", JSON.stringify(userInitials));
-        
-    }
+    userDetailsArray.push(userDetails);
+    localStorage.setItem("userDetailsArray", JSON.stringify(userDetailsArray));
+    displayHighScoresPage();
     
+    // localStorage.setItem("userDetails", JSON.stringify(userDetails));
+    
+    // if (localStorage.getItem("userDetails") === null) {
+    //     // console.log("doesn't have");
+    //     localStorage.setItem("userDetails", JSON.stringify(userDetails));
+    //     var retrievedUserDetails = JSON.parse(localStorage.getItem("userDetails"));
+        
+    // }  else {
+    //     var retrievedUserDetails = JSON.parse(localStorage.getItem("userDetails"));
+    //     console.log(retrievedUserDetails);
+        
+    // }
+        
     
 })
 
@@ -179,7 +194,7 @@ function displayResultPage(){
     resultPage.style.display = "block";
     highScorePage.style.display = "none";
     hiScoreBtn.style.display = "none";
-    timerDisplayID.style.display = "none";
+    timerDisplayID.style.display = "block";
 }
 
 function displayHighScoresPage(){
