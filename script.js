@@ -24,11 +24,17 @@ var deleteScoresBtn = document.querySelector("#deleteScores");
 
 var secondsLeft = 20
 
-// not sure if i'm going to use this yet to keep score or whether 
+// for tallying how many answers are chosen correctly 
 var scoreCount = 0
 
 // index to be used to track cycling through the questionBank array
 var indexCount = 0
+
+var userInitials =""
+
+
+
+var resultsArray = []
 
 // array with question-answers to be cycled through the quiz page
 var questionBank = [
@@ -92,6 +98,7 @@ choicesID.addEventListener("click",function (event) {
                 choiceResult.appendChild(congrats);
                 indexCount++;
                 scoreCount++
+
                 populateQuesAns()
             } 
             else {
@@ -101,9 +108,12 @@ choicesID.addEventListener("click",function (event) {
                 choiceResult.appendChild(wrongAnswer);
                 indexCount++;
                 scoreCount--;
-            
                 populateQuesAns()
             }  
+        } else {
+            alert("Well done! Click to see your score result")
+            displayResultPage()
+            populateResult()
         }
     }
 })
@@ -120,8 +130,26 @@ function startTimer() {
         }
     }, 1000);
 }
+//need to figure out how to stop the timer if all questions have been asked with time left over.
 
 
+function populateResult() {
+    yourResult.textContent = "You got " + scoreCount + " out of 4 questions correct.";
+}
+
+submitBtn.addEventListener("click", function() {
+    var userDetails = {
+        "name": initials.value,
+        "score": scoreCount
+    } 
+    if (localStorage.getItem("userDetails") === null) {
+        // console.log("doesn't have");
+        localStorage.setItem("userDetails", JSON.stringify(userInitials));
+        
+    }
+    
+    
+})
 
 
 
