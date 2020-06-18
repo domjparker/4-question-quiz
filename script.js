@@ -126,7 +126,7 @@ function startTimer() {
             clearInterval(timerInterval);
             alert("You ran out of time");
             displayResultPage()
-        } else if (indexCount === questionBank.length - 1) {
+        } else if (indexCount === questionBank.length - 1) {  //having an issue where timer stops after 3 clicks or not at all if I take away the '- 1'
             clearInterval(timerInterval);
             console.log(timerDisplayID.textContent);
         }
@@ -142,27 +142,21 @@ function populateResult() {
 submitBtn.addEventListener("click", function() {
     event.preventDefault();
     userDetails = {
-        "name": initials.value,
-        "score": scoreCount,
-        "time": timerDisplayID.textcontent
+        name: initials.value,
+        score: scoreCount,
+        time: timerDisplayID.textcontent
     } 
     userDetailsArray.push(userDetails);
+    initials.value = "";
     localStorage.setItem("userDetailsArray", JSON.stringify(userDetailsArray));
+    for (let i = 0; i < 10; i++) {
+        var rankItem = userDetailsArray[i];
+        var rankItemLI = document.createElement("li");
+        rankItemLI.textContent = rankItem.name + " got " + rankItem.score + " correct, with a time of " + rankItem.time + "seconds left on the clock.";
+        scoreListDiv.appendChild(rankItemLI); 
+    }
     displayHighScoresPage();
-    
-    // localStorage.setItem("userDetails", JSON.stringify(userDetails));
-    
-    // if (localStorage.getItem("userDetails") === null) {
-    //     // console.log("doesn't have");
-    //     localStorage.setItem("userDetails", JSON.stringify(userDetails));
-    //     var retrievedUserDetails = JSON.parse(localStorage.getItem("userDetails"));
-        
-    // }  else {
-    //     var retrievedUserDetails = JSON.parse(localStorage.getItem("userDetails"));
-    //     console.log(retrievedUserDetails);
-        
-    // }
-        
+     
     
 })
 
