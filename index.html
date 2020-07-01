@@ -11,7 +11,7 @@
       crossorigin="anonymous"
     />
   </head>
-  <body>
+  <body id="pageBody">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="d-flex justify-content-between">
             <button id="highScoreButton" class="btn btn-light flex-row">View High Scores</button>
@@ -26,10 +26,10 @@
                 
                 <!-- Start Page -->
                 <section id="startPage">
-                    <div class="card border-0">
+                    <div class="card border-0 p-2" >
                         <div id="instructions" class="card-body text-center">
-                          <h1>Welcome to the Quiz</h1>
-                          <h4>This quiz involves answering four questions while a timer counts down from 1 minute. If you answer a question correctly, the timer will count down normally. If you answer a question incorrectly, you will lose 15 seconds from the timer as it counts down. Are you ready?</h4>
+                          <h1>Welcome to the Question Quiz</h1>
+                          <h4>This quiz involves answering four questions while a timer counts down from 40 seconds. If you answer a question correctly, the timer will count down normally. If you answer a question incorrectly, you will lose 10 seconds from the timer as it counts down. Your score will be the amount of seconds left at the end of the round. Are you ready?</h4>
                         </div>
                         <div id="startBtnDiv" class="text-center">
                         </div>
@@ -38,7 +38,7 @@
 
                 <!-- Quiz Game Section -->
                 <section id="quiz">
-                    <div class="card border-0">
+                    <div class="card border-0 p-2">
                         <div class="card-body">
                           <h1 id="questionID" class="card-title">Card title</h5>
                         </div>
@@ -51,7 +51,7 @@
 
                 <!-- Quiz End Section -->
                 <section id="resultPage">
-                    <div class="card border-0">
+                    <div class="card border-0 p-2">
                         <div class="card-body text-center">
                           <h1>All done!</h1>
                           <h4 id="yourResult"></h4>
@@ -66,8 +66,8 @@
 
                 <!-- High Scores Section -->
                 <section id="highScores">
-                    <div class="card border-0">
-                        <div class="card-body">
+                    <div class="card border-0 p-2">
+                        <div class="card-body text-center">
                           <h1 class="card-title">High Score Rankings</h5>
                         </div>
                         <div id="scoresRanked" class="list-group list-group-flush"></div>
