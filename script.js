@@ -16,11 +16,6 @@ var resultPage = document.querySelector("#resultPage");
 var yourResult = document.querySelector("#yourResult");
 var initials = document.querySelector("#initials");
 var submitBtn = document.querySelector("#submitBtn")
-userDetails = {
-        name: initials.value,
-        score: scoreCount,
-        time: timerDisplayID.textcontent
-} 
 
 // variables made from elements grabbed from high scores page
 var highScorePage = document.querySelector("#highScores");
@@ -71,7 +66,7 @@ var questionBank = [
 function init() {
     // displayStartPage()
     displayStartPage();
-    // button created, given text, and appended
+    // start button created, given text, and appended to page
     var startBtn = document.createElement("button")
     startBtnDiv.className = "btn btn-success";
     startBtn.textContent = "Start Game";
@@ -83,12 +78,13 @@ function init() {
         populateQuesAns();
         startTimer();
         
-    })}
+    })
+};
 
 // if High Scores button clicked, high scores page is displayed.
 hiScoreBtn.addEventListener("click", function() {
     displayHighScoresPage()
-})
+});
 
 // function to push question and answer details to the DOM as they cycle through the questionBank array.
 function populateQuesAns() {
@@ -102,60 +98,62 @@ function populateQuesAns() {
         var button = document.createElement("button")
         // ...possible answer is given to the button
         button.textContent = option
-        // ... and the button with text content is appended to the quiz page
+        // ... and button, with text content, is appended to the quiz page
         choicesID.appendChild(button)
-    })
-    
-}
+    })  
+};
+
 // click event listener is given to each button populated for each question.
 choicesID.addEventListener("click",function (event) {
     choiceResult.innerHTML = "";
     // If the click event is a button clicked...
     if (event.target.matches("button")) {
-        // and if it is not the button on the final question....
-        if(indexCount < questionBank.length - 1) {
-            // and if the button clicked corresponds to the correct answer for that question...
-            if(event.target.textContent === questionBank[indexCount].correctAnswer) {
-                // a congrats element is created and ...
-                var congrats = document.createElement("h1");
-                // ... is given classes,
-                congrats.className = "card-body text-success"
-                // ... is given text content,
-                congrats.textContent = "Correct!!! You know your stuff!!!"
-                // and is appended to the page for the duration of the next question
-                choiceResult.appendChild(congrats);
-                // index count increases by 1 in order to move to the next question
-                // indexCount++;
-                // one point is added to the user's score.
-                scoreCount++
-                console.log(scoreCount)
-                // and quiz moves on to the next question
+        // and if the button clicked corresponds to the correct answer for that question...
+        if(event.target.textContent === questionBank[indexCount].correctAnswer) {
+            // a congrats element is created and ...
+            var congrats = document.createElement("h1");
+            // ... is given classes,
+            congrats.className = "card-body text-success"
+            // ... is given text content,
+            congrats.textContent = "Correct!!! You know your stuff!!!"
+            // and is appended to the page for the duration of the next question
+            choiceResult.appendChild(congrats);
+            // index count increases by 1 in order to move to the next question
+            indexCount++;
+            console.log(indexCount)
+            // one point is added to the user's score.
+            scoreCount++
+            console.log(scoreCount)
+            // if scoreCount doesn't indicate it is the final question...
+            if(indexCount < questionBank.length) {
+            //  quiz moves on to the next question
                 populateQuesAns()
-            } 
-            else {      //if the button clicked corresponds with a wrong answer, and is not the final question....
-                var wrongAnswer = document.createElement("h1");
-                wrongAnswer.className = "card-body text-danger"
-                // give a wrong answer message.
-                wrongAnswer.textContent = "You need to study more!"
-                choiceResult.appendChild(wrongAnswer);
-                // move to the next question
-                // indexCount++;
-                // deduct time from timer
-                secondsLeft= secondsLeft -10
-                // subtract a point from the user's score.
-                scoreCount--;
-                //populate next question
+            } else {
+                displayResultPage();
+                populateResult();
+            }
+        } else {      
+            //if the button clicked corresponds with a wrong answer, and is not the final question....
+            var wrongAnswer = document.createElement("h1");
+            wrongAnswer.className = "card-body text-danger"
+            // give a wrong answer message.
+            wrongAnswer.textContent = "You need to study more!"
+            choiceResult.appendChild(wrongAnswer);
+            // move to the next question
+            indexCount++;
+            // deduct time from timer
+            secondsLeft= secondsLeft -10
+            // if scoreCount doesn't indicate it is the final question...
+            if(indexCount < questionBank.length) {
+                //  quiz moves on to the next question
                 populateQuesAns()
-            }  
-        } else {    //if the index count indicates that the last question has been attempted...
-            displayResultPage()
-            populateResult()
-        }
+            } else {
+                displayResultPage();
+                populateResult();
+            }
+        }  
     }
-})
-
-
-
+});
 
 // timer function to count down from 20 seconds
 function startTimer() {
@@ -169,20 +167,17 @@ function startTimer() {
             // alert("You ran out of time");
             displayResultPage()
         
-        // if user answers questions within 0 seconds, log time when finished fourth question.
-        } else if (indexCount === questionBank.length -1) {  //having an issue where timer stops after 3 clicks or not at all if I take away the '- 1'
+        // if user answers questions before 0 seconds, log time when finished fourth question.
+        } else if (indexCount === questionBank.length) {  //having an issue where timer stops after 3 clicks or not at all if I take away the '- 1'
             clearInterval(timerInterval);
             console.log(timerDisplayID.textContent);
         }
     }, 1000);
-}
-//need to figure out how to stop the timer if all questions have been asked with time left over.
-// Issue with timer also not continuing on after third question answered.
+};
+
 
 // populate users result to result page.
 function populateResult() {
-    
-    
     // If user got no answer's correct, say this
     if (scoreCount <= 0) {
         yourResult.textContent = "You chose no correct answers.";
@@ -190,36 +185,41 @@ function populateResult() {
     } else {
         yourResult.textContent = "You got " + scoreCount + " out of 4 questions correct.";
     }
-}
+};
+
 // button to submit initials to high scores page
 submitBtn.addEventListener("click", function() {
     event.preventDefault();
     if (initials.value !==""){
+        // create object to hold user's initials and score
+        var userDetails = {
+            name: initials.value,
+            score: secondsLeft,
+        }; 
+        // add the user's initials and score to the userDetailsArray
+        userDetailsArray.push(userDetails);
 
-    
-    userDetails = {
-        name: initials.value,
-        score: secondsLeft,
-        time: secondsLeft
-    } //having an issue where name, score, and time are not defined in line 170
+        // order the array from highest to lowest score  !!!!!!!!!!!!!!!!! this is not working !!!!!!!!!!!!
+        var scoresToSort = userDetailsArray.score;
+        var sortedArray = scoresToSort.sort(function(a,b) {
+            return b - a;
+        });
+        console.log(sortedArray)
 
-// Write the logic to order the list
-
-    if(userDetailsArray.length >10){
-        userDetailsArray.shift()
+        if(userDetailsArray.length >10){
+            userDetailsArray.shift()
+        }
+        initials.value = "";
+        localStorage.setItem("userDetailsArray", JSON.stringify(userDetailsArray));
     }
-    userDetailsArray.push(userDetails);
-    initials.value = "";
-    localStorage.setItem("userDetailsArray", JSON.stringify(userDetailsArray));
-}
 if(userDetailsArray.length >0){
-    console.log(userDetailsArray);
+    // console.log(userDetailsArray);
     
     for (let i = 0; i < userDetailsArray.length; i++) {
         //rankItem = userDetailsArray[i];
         var rankItemLI = document.createElement("div");
         rankItemLI.className = "bg-primary border";
-        rankItemLI.textContent = "Name: " + userDetailsArray[i].name + "______Score: " + userDetailsArray[i].score + "______Time Left: " + userDetailsArray[i].time;
+        rankItemLI.textContent = "Name: " + userDetailsArray[i].name + "______Score: " + userDetailsArray[i].score;
         scoreListDiv.appendChild(rankItemLI); 
     }
 
