@@ -33,7 +33,7 @@ var scoreCount = 0
 // index to be used to track cycling through the questionBank array
 var indexCount = 0
 
-// unitials cleared from any previous game plays
+// initials cleared from any previous game plays
 var userInitials =""
 
 // user details from previous game plays retrieved from localStorage for use in high scores
@@ -155,7 +155,7 @@ choicesID.addEventListener("click",function (event) {
     }
 });
 
-// timer function to count down from 20 seconds
+// timer function to count down from 40 seconds
 function startTimer() {
     var timerInterval = setInterval(function() {
         secondsLeft--;
@@ -168,7 +168,7 @@ function startTimer() {
             displayResultPage()
         
         // if user answers questions before 0 seconds, log time when finished fourth question.
-        } else if (indexCount === questionBank.length) {  //having an issue where timer stops after 3 clicks or not at all if I take away the '- 1'
+        } else if (indexCount === questionBank.length) {  
             clearInterval(timerInterval);
             console.log(timerDisplayID.textContent);
         }
@@ -199,12 +199,11 @@ submitBtn.addEventListener("click", function() {
         // add the user's initials and score to the userDetailsArray
         userDetailsArray.push(userDetails);
 
-        // order the array from highest to lowest score  !!!!!!!!!!!!!!!!! this is not working !!!!!!!!!!!!
-        var scoresToSort = userDetailsArray.score;
-        var sortedArray = scoresToSort.sort(function(a,b) {
-            return b - a;
-        });
-        console.log(sortedArray)
+        // order the array from highest to lowest score
+        userDetailsArray.sort(function(a,b) {
+            return b.score - a.score
+        })
+        console.log(userDetailsArray)
 
         if(userDetailsArray.length >10){
             userDetailsArray.shift()
@@ -213,8 +212,8 @@ submitBtn.addEventListener("click", function() {
         localStorage.setItem("userDetailsArray", JSON.stringify(userDetailsArray));
     }
 if(userDetailsArray.length >0){
-    // console.log(userDetailsArray);
-    
+    // clear scoreListDiv so that the scores don't populate multiple times when quiz played again.
+    scoreListDiv.innerHTML = "";
     for (let i = 0; i < userDetailsArray.length; i++) {
         //rankItem = userDetailsArray[i];
         var rankItemLI = document.createElement("div");
@@ -222,7 +221,7 @@ if(userDetailsArray.length >0){
         rankItemLI.textContent = "Name: " + userDetailsArray[i].name + "______Score: " + userDetailsArray[i].score;
         scoreListDiv.appendChild(rankItemLI); 
     }
-
+    
     displayHighScoresPage();
 }
 })
